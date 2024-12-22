@@ -2,7 +2,7 @@
 #'
 #' Generates a combined APA-style boxplot and density plot for a single variable, optionally grouped by one or two categorical variables.
 #'
-#' @param data A data frame containing the variable to be plotted.
+#'#' @param data A data frame containing the variable to be plotted.
 #' @param variable The name of the variable to be plotted (as a string).
 #' @param group1 An optional grouping variable (as a string).
 #' @param group2 An optional second grouping variable (as a string).
