@@ -47,15 +47,15 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
     density_label <- "Dichte"
     default_subtitle_density <- paste("Dichteplot von", variable)
     default_subtitle_boxplot <- paste("Boxplot von", variable)
-    legend_title1 <- paste("Gruppen von", group2)
-    legend_title2 <- paste("Gruppen von", group2)
+    legend_title1 <- paste("Gruppen", group1)
+    legend_title2 <- paste("Gruppen", group2)
   } else {
     default_y_label <- paste("Value of", variable)
     density_label <- "Density"
     default_subtitle_density <- paste("Density plot of", variable)
     default_subtitle_boxplot <- paste("Boxplot of", variable)
-    legend_title1 <- paste("Groups of", group2)
-    legend_title2 <- paste("Groups of", group2)
+    legend_title1 <- paste("Groups", group1)
+    legend_title2 <- paste("Groups", group2)
   }
 
   # Generate default labels if not provided
