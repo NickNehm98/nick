@@ -15,7 +15,7 @@
 #' remove_outliers(df, variable = "values", group1 = "group1")
 #' remove_outliers(df, variable = "values", group1 = "group1", group2 = "group2")
 #' @export
-remove_outliers <- function(data, variable, group1 = NULL, group2 = NULL, remove_outliers = TRUE) {
+nick_remOutliers <- function(data, variable, group1 = NULL, group2 = NULL, remove_outliers = TRUE) {
   if (!variable %in% names(data)) {
     stop("Die angegebene Variable ist nicht im Dataframe enthalten.")
   }
