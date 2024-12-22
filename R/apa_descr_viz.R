@@ -34,7 +34,6 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
   ... # The full function code remains unchanged
 }
 
-
 # Combined APA-style boxplot and density plot for a single variable with optional second grouping
 nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitle_boxplot = NULL, subtitle_density = NULL, y_label = NULL, x_label = NULL, language = "english", show_jitter = TRUE) {
   if (!variable %in% names(data)) {
