@@ -185,7 +185,7 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
         x = x_label
       ) +
       guides(fill = guide_legend(title = legend_title1, title.position = "top")) +
-      theme(legend.position.inside = c(0.825, 0.8),
+      theme(legend.position.inside = c(0.8, 0.8),
             legend.background = element_rect(fill = "white", color = "black"),
             panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
             panel.grid.major.y = element_line(color = "grey85", linewidth = 0.2),
@@ -212,7 +212,7 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
 
   # Combine plots side by side
   combined_plot <- plot_grid(
-    boxplot + theme(plot.margin = margin(t = 15, r = 0, b = 15, l = 25)),
+    boxplot + theme(plot.margin = margin(t = 15, r = 10, b = 15, l = 0)),
     density_plot + theme(plot.margin = margin(t = 15, r = 15, b = 15, l = 0)),
     align = "hv", axis = "tblr", ncol = 2 # Side by side with two columns
   )
@@ -220,11 +220,3 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
   return(combined_plot)
 }
 
-
-df <- mtcars
-
-df$cyl <- as.factor(df$cyl)
-df$am <- as.factor(df$am)
-
-
-nick_descrPlot(df, variable = "drat", group1 = "am", group2 = "cyl")
