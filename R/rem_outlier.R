@@ -1,14 +1,14 @@
-#' Entferne Ausreißer aus Daten
+#' Remove Outliers from Data
 #'
-#' Diese Funktion entfernt Ausreißer basierend auf dem Interquartilsabstand (IQR).
-#' Optional können Gruppierungsvariablen angegeben werden, um die Ausreißer innerhalb jeder Gruppe zu berechnen.
+#' This function removes outliers based on the Interquartile Range (IQR).
+#' Optionally, grouping variables can be specified to calculate outliers within each group.
 #'
-#' @param data Ein Dataframe, aus dem Ausreißer entfernt werden sollen.
-#' @param variable Der Name der zu bereinigenden Variable (als String).
-#' @param group1 Eine optionale erste Gruppierungsvariable (als String).
-#' @param group2 Eine optionale zweite Gruppierungsvariable (als String).
-#' @param remove_outliers Logical; wenn TRUE, werden Ausreißer entfernt (Default: TRUE).
-#' @return Ein bereinigter Dataframe ohne Ausreißer.
+#' @param data A dataframe from which outliers should be removed.
+#' @param variable The name of the variable to clean (as a string).
+#' @param group1 An optional first grouping variable (as a string).
+#' @param group2 An optional second grouping variable (as a string).
+#' @param remove_outliers Logical; if TRUE, outliers are removed (Default: TRUE).
+#' @return A cleaned dataframe without outliers.
 #' @examples
 #' df <- data.frame(values = c(1, 2, 3, 100, 5), group1 = c("A", "A", "B", "B", "B"), group2 = c("X", "X", "Y", "Y", "Y"))
 #' remove_outliers(df, variable = "values")

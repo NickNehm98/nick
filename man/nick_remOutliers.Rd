@@ -2,7 +2,7 @@
 % Please edit documentation in R/rem_outlier.R
 \name{nick_remOutliers}
 \alias{nick_remOutliers}
-\title{Entferne Ausreißer aus Daten}
+\title{Remove Outliers from Data}
 \usage{
 nick_remOutliers(
   data,
@@ -13,22 +13,22 @@ nick_remOutliers(
 )
 }
 \arguments{
-\item{data}{Ein Dataframe, aus dem Ausreißer entfernt werden sollen.}
+\item{data}{A dataframe from which outliers should be removed.}
 
-\item{variable}{Der Name der zu bereinigenden Variable (als String).}
+\item{variable}{The name of the variable to clean (as a string).}
 
-\item{group1}{Eine optionale erste Gruppierungsvariable (als String).}
+\item{group1}{An optional first grouping variable (as a string).}
 
-\item{group2}{Eine optionale zweite Gruppierungsvariable (als String).}
+\item{group2}{An optional second grouping variable (as a string).}
 
-\item{remove_outliers}{Logical; wenn TRUE, werden Ausreißer entfernt (Default: TRUE).}
+\item{remove_outliers}{Logical; if TRUE, outliers are removed (Default: TRUE).}
 }
 \value{
-Ein bereinigter Dataframe ohne Ausreißer.
+A cleaned dataframe without outliers.
 }
 \description{
-Diese Funktion entfernt Ausreißer basierend auf dem Interquartilsabstand (IQR).
-Optional können Gruppierungsvariablen angegeben werden, um die Ausreißer innerhalb jeder Gruppe zu berechnen.
+This function removes outliers based on the Interquartile Range (IQR).
+Optionally, grouping variables can be specified to calculate outliers within each group.
 }
 \examples{
 df <- data.frame(values = c(1, 2, 3, 100, 5), group1 = c("A", "A", "B", "B", "B"), group2 = c("X", "X", "Y", "Y", "Y"))
