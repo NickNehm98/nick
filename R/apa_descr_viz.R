@@ -47,14 +47,14 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
     density_label <- "Dichte"
     default_subtitle_density <- paste("Dichteplot von", variable)
     default_subtitle_boxplot <- paste("Boxplot von", variable)
-    legend_title1 <- paste("Gruppen", group1)
+    legend_title1 <- paste("Gruppen", group2)
     legend_title2 <- paste("Gruppen", group2)
   } else {
     default_y_label <- paste("Value of", variable)
     density_label <- "Density"
     default_subtitle_density <- paste("Density plot of", variable)
     default_subtitle_boxplot <- paste("Boxplot of", variable)
-    legend_title1 <- paste("Groups", group1)
+    legend_title1 <- paste("Groups", group2)
     legend_title2 <- paste("Groups", group2)
   }
 
@@ -213,7 +213,7 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
   # Combine plots side by side
   combined_plot <- plot_grid(
     boxplot + theme(plot.margin = margin(t = 15, r = 0, b = 15, l = 25)),
-    density_plot + theme(plot.margin = margin(t = 15, r = 15, b = 15, l = 5)),
+    density_plot + theme(plot.margin = margin(t = 15, r = 15, b = 15, l = 0)),
     align = "hv", axis = "tblr", ncol = 2 # Side by side with two columns
   )
 
@@ -221,3 +221,10 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
 }
 
 
+df <- mtcars
+
+df$cyl <- as.factor(df$cyl)
+df$am <- as.factor(df$am)
+
+
+nick_descrPlot(df, variable = "drat", group1 = "am", group2 = "cyl")
