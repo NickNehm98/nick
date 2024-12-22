@@ -201,4 +201,3 @@ nick_descrPlot <- function(data, variable, group1 = NULL, group2 = NULL, subtitl
 }
 
 
-
