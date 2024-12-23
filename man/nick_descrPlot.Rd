@@ -2,55 +2,53 @@
 % Please edit documentation in R/apa_descr_viz.R
 \name{nick_descrPlot}
 \alias{nick_descrPlot}
-\title{APA-Style Combined Boxplot and Density Plot}
+\title{Descriptive Statistics and Density Plots}
 \usage{
 nick_descrPlot(
   data,
-  variable,
+  variables,
   group1 = NULL,
   group2 = NULL,
-  subtitle_boxplot = NULL,
-  subtitle_density = NULL,
-  y_label = NULL,
-  x_label = NULL,
   language = "english",
   show_jitter = TRUE
 )
 }
 \arguments{
-\item{variable}{The name of the variable to be plotted (as a string).}
+\item{data}{A data frame containing the dataset.}
 
-\item{group1}{An optional grouping variable (as a string).}
+\item{variables}{A character vector specifying the names of numeric variables to visualize.}
 
-\item{group2}{An optional second grouping variable (as a string).}
+\item{group1}{An optional character string specifying the primary grouping variable for the boxplot (default: `NULL`).}
 
-\item{subtitle_boxplot}{An optional subtitle for the boxplot.}
+\item{group2}{An optional character string specifying the secondary grouping variable for the boxplot and density plot (default: `NULL`).}
 
-\item{subtitle_density}{An optional subtitle for the density plot.}
+\item{language}{A character string specifying the language for plot labels. Options are "english" (default) or "german".}
 
-\item{y_label}{Custom label for the Y-axis (default is based on `variable`).}
-
-\item{x_label}{Custom label for the X-axis (default is based on `variable`).}
-
-\item{language}{Language for labels and subtitles, either "english" or "german".}
-
-\item{show_jitter}{Logical; whether to show jittered points on the boxplot (default: TRUE).}
+\item{show_jitter}{A logical value. If `TRUE` (default), adds jittered points to the boxplot for better visualization of individual data points.}
 }
 \value{
-A combined ggplot object with the boxplot and density plot side by side.
+A combined ggplot object containing the boxplots and density plots for the specified variables.
 }
 \description{
-Generates a combined APA-style boxplot and density plot for a single variable, optionally grouped by one or two categorical variables.
+Generates boxplots and density plots for one or more numeric variables, optionally grouped by one or two categorical variables. The function supports APA-style visualizations with language options for English and German.
 }
 \details{
-#' @param data A data frame containing the variable to be plotted.
-
-This function uses APA-style formatting to create a boxplot and density plot.
-Default APA colors are used, and the function allows customization of subtitles, axis labels, and grouping.
-The boxplot and density plot are aligned side-by-side using the `cowplot` package.
+This function allows users to generate visualizations for numeric variables, optionally grouped by one or two categorical variables. The boxplot shows the distribution of values within groups, while the density plot visualizes the overall distribution of the variable. The function automatically adjusts bin width for the density plot and uses an APA-compliant color palette for group differentiation.
 }
 \examples{
-data <- data.frame(values = rnorm(100), group = sample(c("A", "B"), 100, replace = TRUE))
-nick_descrPlot(data, variable = "values", group1 = "group")
+# Load ggplot2 for visualization
+library(ggplot2)
+library(cowplot)
+
+# Example dataset
+data(mtcars)
+mtcars$cyl <- as.factor(mtcars$cyl)  # Convert grouping variable to factor
+mtcars$am <- as.factor(mtcars$am)   # Convert another grouping variable to factor
+
+# Single variable visualization
+nick_descrPlot(mtcars, variables = c("mpg"), group1 = "cyl", group2 = "am", language = "english")
+
+# Multiple variables visualization
+nick_descrPlot(mtcars, variables = c("mpg", "hp"), group1 = "cyl", group2 = "am", language = "german", show_jitter = FALSE)
 
 }
