@@ -22,7 +22,7 @@ nick_descrPlot(
 
 \item{group2}{An optional character string specifying the secondary grouping variable for the boxplot and density plot (default: `NULL`).}
 
-\item{language}{A character string specifying the language for plot labels. Options are "english" (default) or "german".}
+\item{language}{A character string specifying the language for plot labels. Options are "english" (default) or "ger".}
 
 \item{show_jitter}{A logical value. If `TRUE` (default), adds jittered points to the boxplot for better visualization of individual data points.}
 }
@@ -49,6 +49,6 @@ mtcars$am <- as.factor(mtcars$am)   # Convert another grouping variable to facto
 nick_descrPlot(mtcars, variables = c("mpg"), group1 = "cyl", group2 = "am", language = "english")
 
 # Multiple variables visualization
-nick_descrPlot(mtcars, variables = c("mpg", "hp"), group1 = "cyl", group2 = "am", language = "german", show_jitter = FALSE)
+nick_descrPlot(mtcars, variables = c("mpg", "hp"), group1 = "cyl", group2 = "am", language = "ger", show_jitter = FALSE)
 
 }

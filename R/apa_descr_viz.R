@@ -6,7 +6,7 @@
 #' @param variables A character vector specifying the names of numeric variables to visualize.
 #' @param group1 An optional character string specifying the primary grouping variable for the boxplot (default: `NULL`).
 #' @param group2 An optional character string specifying the secondary grouping variable for the boxplot and density plot (default: `NULL`).
-#' @param language A character string specifying the language for plot labels. Options are "english" (default) or "german".
+#' @param language A character string specifying the language for plot labels. Options are "english" (default) or "ger".
 #' @param show_jitter A logical value. If `TRUE` (default), adds jittered points to the boxplot for better visualization of individual data points.
 #'
 #' @return A combined ggplot object containing the boxplots and density plots for the specified variables.
@@ -27,7 +27,7 @@
 #' nick_descrPlot(mtcars, variables = c("mpg"), group1 = "cyl", group2 = "am", language = "english")
 #'
 #' # Multiple variables visualization
-#' nick_descrPlot(mtcars, variables = c("mpg", "hp"), group1 = "cyl", group2 = "am", language = "german", show_jitter = FALSE)
+#' nick_descrPlot(mtcars, variables = c("mpg", "hp"), group1 = "cyl", group2 = "am", language = "ger", show_jitter = FALSE)
 #'
 #' @export
 nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, language = "english", show_jitter = TRUE) {
@@ -39,28 +39,43 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
   # Helper function to create plots for a single variable
   create_plots <- function(variable) {
     # Language-specific labels
-    if (language == "german") {
+    if (language == "ger") {
       y_label <- paste("Wert von", variable)
       density_label <- "Dichte"
       subtitle_density <- paste("Dichteplot von", variable)
       subtitle_boxplot <- paste("Boxplot von", variable)
+      variable_title <- paste("Plots für Variable:", variable)
     } else {
       y_label <- paste("Value of", variable)
       density_label <- "Density"
       subtitle_density <- paste("Density plot of", variable)
       subtitle_boxplot <- paste("Boxplot of", variable)
+      variable_title <- paste("Plots for Variable:", variable)
     }
 
     # Generate subtitles based on groups
-    if (is.null(group1) && is.null(group2)) {
-      subtitle_boxplot <- paste("Boxplot of", variable)
-      subtitle_density <- paste("Density plot of", variable)
-    } else if (!is.null(group1) && is.null(group2)) {
-      subtitle_boxplot <- paste("Boxplot grouped by", group1)
-      subtitle_density <- paste("Density plot grouped by", group1)
-    } else if (!is.null(group1) && !is.null(group2)) {
-      subtitle_boxplot <- paste("Boxplot grouped by", group1, "and", group2)
-      subtitle_density <- paste("Density plot grouped by", group1, "and", group2)
+    if (language == "ger") {
+      if (is.null(group1) && is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot von", variable)
+        subtitle_density <- paste("Dichteplot von", variable)
+      } else if (!is.null(group1) && is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot gruppiert nach", group1)
+        subtitle_density <- paste("Dichteplot gruppiert nach", group1)
+      } else if (!is.null(group1) && !is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot gruppiert nach", group1, "und", group2)
+        subtitle_density <- paste("Dichteplot gruppiert nach", group1, "und", group2)
+      }
+    } else {
+      if (is.null(group1) && is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot of", variable)
+        subtitle_density <- paste("Density plot of", variable)
+      } else if (!is.null(group1) && is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot grouped by", group1)
+        subtitle_density <- paste("Density plot grouped by", group1)
+      } else if (!is.null(group1) && !is.null(group2)) {
+        subtitle_boxplot <- paste("Boxplot grouped by", group1, "and", group2)
+        subtitle_density <- paste("Density plot grouped by", group1, "and", group2)
+      }
     }
 
     # Automatically determine optimal binwidth for density plot
@@ -137,21 +152,27 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
       ) +
       theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-    # Combine plots side by side
+    # Add a title above the combined plots
+    title <- ggdraw() + draw_label(variable_title, fontface = 'bold', hjust = 0.5)
+
+    # Combine boxplot and density plot side by side
     plot_combined <- plot_grid(
       boxplot + theme(plot.margin = margin(t = 15, r = 10, b = 15, l = 0)),
       density_plot + theme(plot.margin = margin(t = 15, r = 15, b = 15, l = 0)),
       align = "hv", axis = "tblr", ncol = 2
     )
 
-    return(plot_combined)
+    # Add the title to the combined plot
+    final_combined <- plot_grid(title, plot_combined, ncol = 1, rel_heights = c(0.1, 1))
+
+    return(final_combined)
   }
 
   # Iterate over variables and create combined plots
   all_plots <- lapply(variables, create_plots)
 
-  # Stack all plots vertically
-  final_plot <- plot_grid(plotlist = all_plots, ncol = 1, align = "v", axis = "tblr")
+  # Stack all plots vertically with spacing
+  final_plot <- plot_grid(plotlist = all_plots, ncol = 1, align = "v", axis = "tblr", rel_heights = rep(1, length(all_plots)))
 
   return(final_plot)
 }
