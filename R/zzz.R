@@ -8,7 +8,7 @@
   required_packages <- c("tidyverse", "psych", "car", "rempsyc", "apa", "report",
                          "apaTables", "datawizard",  "caret", "papaja", "jtools",
                          "patchwork", "scales", "ggforce", "ggthemes", "cowplot",
-                         "flextable", "effsize")
+                         "flextable", "effsize", "officer")
   # Function to install and load packages
   install_and_load_packages <- function(packages) {
     for (package in packages) {
