@@ -5,7 +5,7 @@
 #' @param data A data frame containing the dataset.
 #' @param group A character string specifying the grouping variable. This variable must have exactly two levels.
 #' @param variables A character vector specifying the names of numeric variables to test.
-#' @param language A character string specifying the language for the output. Options are "en" (English, default) or "de" (German).
+#' @param language A character string specifying the language for the output. Options are "en" (English, default) or "ger" (German).
 #' @param output_file A character string specifying the file name for the exported Word document. Defaults to "APA_Table.docx".
 #' @param export A logical value. If `TRUE`, the table and text reports are exported to a Word document. If `FALSE`, the table is displayed in the RStudio Viewer, and the text is printed to the console. Defaults to `FALSE`.
 #'
@@ -23,21 +23,21 @@
 #' nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "en", export = FALSE)
 #'
 #' # Generate APA-style table and text and export to a Word file
-#' nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "de", output_file = "APA_Output.docx", export = TRUE)
+#' nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "ger", output_file = "APA_Output.docx", export = TRUE)
 #'
 #' @export
 nick_ttest_apa <- function(data, group, variables, language = "en", output_file = "APA_Table.docx", export = FALSE) {
 
   # Eingabe validieren
   if (!(group %in% colnames(data))) {
-    stop(sprintf(ifelse(language == "de", "Die Gruppenvariable '%s' wurde im Datensatz nicht gefunden.",
+    stop(sprintf(ifelse(language == "ger", "Die Gruppenvariable '%s' wurde im Datensatz nicht gefunden.",
                         "Grouping variable '%s' not found in the dataset."), group))
   }
 
   # Variablen überprüfen
   missing_vars <- setdiff(variables, colnames(data))
   if (length(missing_vars) > 0) {
-    stop(sprintf(ifelse(language == "de", "Die folgenden Variablen fehlen im Datensatz: %s",
+    stop(sprintf(ifelse(language == "ger", "Die folgenden Variablen fehlen im Datensatz: %s",
                         "The following variables are missing in the dataset: %s"),
                  paste(missing_vars, collapse = ", ")))
   }
@@ -45,7 +45,7 @@ nick_ttest_apa <- function(data, group, variables, language = "en", output_file 
   # Sicherstellen, dass die Gruppenvariable genau zwei Stufen hat
   unique_groups <- unique(data[[group]])
   if (length(unique_groups) != 2) {
-    stop(sprintf(ifelse(language == "de", "Die Gruppenvariable '%s' muss genau zwei Werte haben.",
+    stop(sprintf(ifelse(language == "ger", "Die Gruppenvariable '%s' muss genau zwei Werte haben.",
                         "Grouping variable '%s' must have exactly two unique values."), group))
   }
 
@@ -152,15 +152,15 @@ nick_ttest_apa <- function(data, group, variables, language = "en", output_file 
   )
   ft <- set_header_labels(
     ft,
-    Variable = ifelse(language == "de", "Variable", "Variable"),
+    Variable = ifelse(language == "ger", "Variable", "Variable"),
     Group1_M = "M",
     Group1_SD = "SD",
     Group2_M = "M",
     Group2_SD = "SD",
-    t_value = ifelse(language == "de", "t-Wert", "t"),
-    t_display = ifelse(language == "de", "df", "df"),
+    t_value = ifelse(language == "ger", "t-Wert", "t"),
+    t_display = ifelse(language == "ger", "df", "df"),
     p_value = "p",
-    Cohens_d = ifelse(language == "de", "Cohen's d", "Cohen's d")
+    Cohens_d = ifelse(language == "ger", "Cohen's d", "Cohen's d")
   )
 
   # Linien im Header anpassen
@@ -171,13 +171,13 @@ nick_ttest_apa <- function(data, group, variables, language = "en", output_file 
 
   # Titel dynamisch anpassen
   title <- if (length(variables) == 2) {
-    if (language == "de") {
+    if (language == "ger") {
       paste("Deskr. Statistiken und T-Test Ergebnisse für", variables[1], "und", variables[2], "gruppiert nach", group)
     } else {
       paste("Descr. Statistics and T-Test results for", variables[1], "and", variables[2], "grouped by", group)
     }
   } else {
-    if (language == "de") {
+    if (language == "ger") {
       paste("Deskr. Statistiken und T-Test Ergebnisse für verschiedene Variablen gruppiert nach", group)
     } else {
       paste("Descr. statistics and T-Test results for various variables grouped by", group)
@@ -198,7 +198,7 @@ nick_ttest_apa <- function(data, group, variables, language = "en", output_file 
     doc <- body_add_par(doc, value = "\n", style = "Normal") # Add spacing between table and descriptions
     doc <- body_add_par(doc, value = description_texts, style = "Normal")
     print(doc, target = output_file)
-    cat(ifelse(language == "de", "\nDas Word-Dokument wurde erfolgreich erstellt: ", "\nThe Word document was successfully created: "), output_file, "\n")
+    cat(ifelse(language == "ger", "\nDas Word-Dokument wurde erfolgreich erstellt: ", "\nThe Word document was successfully created: "), output_file, "\n")
   }
 
   # Tabelle zurückgeben

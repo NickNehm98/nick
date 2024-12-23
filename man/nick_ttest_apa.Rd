@@ -20,7 +20,7 @@ nick_ttest_apa(
 
 \item{variables}{A character vector specifying the names of numeric variables to test.}
 
-\item{language}{A character string specifying the language for the output. Options are "en" (English, default) or "de" (German).}
+\item{language}{A character string specifying the language for the output. Options are "en" (English, default) or "ger" (German).}
 
 \item{output_file}{A character string specifying the file name for the exported Word document. Defaults to "APA_Table.docx".}
 
@@ -45,6 +45,6 @@ mtcars$am <- as.factor(mtcars$am) # Convert grouping variable to a factor
 nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "en", export = FALSE)
 
 # Generate APA-style table and text and export to a Word file
-nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "de", output_file = "APA_Output.docx", export = TRUE)
+nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "ger", output_file = "APA_Output.docx", export = TRUE)
 
 }
