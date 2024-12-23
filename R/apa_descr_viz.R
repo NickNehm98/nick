@@ -44,25 +44,21 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
       density_label <- "Dichte"
       subtitle_density <- paste("Dichteplot von", variable)
       subtitle_boxplot <- paste("Boxplot von", variable)
-      legend_title1 <- paste("Gruppen", group2)
-      legend_title2 <- paste("Gruppen", group2)
     } else {
       y_label <- paste("Value of", variable)
       density_label <- "Density"
       subtitle_density <- paste("Density plot of", variable)
       subtitle_boxplot <- paste("Boxplot of", variable)
-      legend_title1 <- paste("Groups", group2)
-      legend_title2 <- paste("Groups", group2)
     }
 
-    # Generate default subtitles based on groups
+    # Generate subtitles based on groups
     if (is.null(group1) && is.null(group2)) {
       subtitle_boxplot <- paste("Boxplot of", variable)
       subtitle_density <- paste("Density plot of", variable)
     } else if (!is.null(group1) && is.null(group2)) {
       subtitle_boxplot <- paste("Boxplot grouped by", group1)
       subtitle_density <- paste("Density plot grouped by", group1)
-    } else {
+    } else if (!is.null(group1) && !is.null(group2)) {
       subtitle_boxplot <- paste("Boxplot grouped by", group1, "and", group2)
       subtitle_density <- paste("Density plot grouped by", group1, "and", group2)
     }
@@ -78,9 +74,38 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
     # Define color palette for groups
     apa_colors <- c("#004C97", "#00B18F", "#E7231E", "#FCCB00", "#3BB24A", "#15BEF0", "#DC3545", "#8DC440")
 
+    # Ensure grouping variables are factors
+    if (!is.null(group1)) {
+      data[[group1]] <- as.factor(data[[group1]])
+    }
+    if (!is.null(group2)) {
+      data[[group2]] <- as.factor(data[[group2]])
+    }
+
     # Create Boxplot
-    boxplot <- ggplot(data, aes(x = factor(!!sym(group1)), y = !!sym(variable), fill = factor(!!sym(group2)))) +
-      geom_boxplot(alpha = 0.7, outlier.color = "red", outlier.size = 3) +
+    if (is.null(group1) && is.null(group2)) {
+      boxplot <- ggplot(data, aes(x = factor(1), y = !!sym(variable))) +
+        geom_boxplot(alpha = 0.7, outlier.color = "red", outlier.size = 3, fill = "#004C97", color = "#212529")
+      if (show_jitter) {
+        boxplot <- boxplot + geom_jitter(width = 0.1, alpha = 0.2, color = "black", size = 3)
+      }
+    } else if (!is.null(group1) && is.null(group2)) {
+      boxplot <- ggplot(data, aes(x = !!sym(group1), y = !!sym(variable), fill = !!sym(group1))) +
+        geom_boxplot(alpha = 0.7, outlier.color = "red", outlier.size = 3)
+      if (show_jitter) {
+        boxplot <- boxplot + geom_jitter(position = position_jitter(width = 0.2), alpha = 0.2, color = "black", size = 3)
+      }
+      boxplot <- boxplot + scale_fill_manual(values = apa_colors)
+    } else {
+      boxplot <- ggplot(data, aes(x = !!sym(group1), y = !!sym(variable), fill = !!sym(group2))) +
+        geom_boxplot(alpha = 0.7, outlier.color = "red", outlier.size = 3)
+      if (show_jitter) {
+        boxplot <- boxplot + geom_jitter(position = position_jitterdodge(dodge.width = 0.75, jitter.width = 0.2), alpha = 0.2, color = "black", size = 3)
+      }
+      boxplot <- boxplot + scale_fill_manual(values = apa_colors)
+    }
+
+    boxplot <- boxplot +
       labs(
         subtitle = subtitle_boxplot,
         y = y_label,
@@ -88,18 +113,26 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
       ) +
       theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
 
-    # Add jitter if required
-    if (show_jitter) {
-      boxplot <- boxplot +
-        geom_jitter(position = position_jitterdodge(dodge.width = 0.75, jitter.width = 0.2), alpha = 0.2, color = "black", size = 3)
+    # Create Density Plot
+    if (is.null(group1) && is.null(group2)) {
+      density_plot <- ggplot(data, aes(x = !!sym(variable))) +
+        geom_histogram(aes(y = after_stat(density)), fill = "#004C97", color = "#212529", alpha = 0.6, binwidth = binwidth) +
+        geom_density(linewidth = 1.2, colour = "#DC3545", fill = "#DC3545", alpha = 0.4)
+    } else if (!is.null(group1) && is.null(group2)) {
+      density_plot <- ggplot(data, aes(x = !!sym(variable), fill = !!sym(group1))) +
+        geom_density(alpha = 0.4) +
+        scale_fill_manual(values = apa_colors)
+    } else {
+      density_plot <- ggplot(data, aes(x = !!sym(variable), fill = !!sym(group2))) +
+        geom_density(alpha = 0.4) +
+        facet_grid(rows = vars(!!sym(group1))) +
+        scale_fill_manual(values = apa_colors)
     }
 
-    # Create Density Plot
-    density_plot <- ggplot(data, aes(x = !!sym(variable), fill = factor(!!sym(group2)))) +
-      geom_density(alpha = 0.4) +
+    density_plot <- density_plot +
       labs(
         subtitle = subtitle_density,
-        y = density_label,
+        y = "Density",
         x = variable
       ) +
       theme(panel.border = element_rect(color = "black", fill = NA, linewidth = 1))
