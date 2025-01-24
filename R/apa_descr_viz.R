@@ -176,3 +176,5 @@ nick_descrPlot <- function(data, variables, group1 = NULL, group2 = NULL, langua
 
   return(final_plot)
 }
+
+

@@ -8,7 +8,7 @@
   required_packages <- c("tidyverse", "psych", "car", "rempsyc", "apa", "report",
                          "apaTables", "datawizard",  "caret", "papaja", "jtools",
                          "patchwork", "scales", "ggforce", "ggthemes", "cowplot",
-                         "flextable", "effsize", "officer")
+                         "flextable", "effsize", "officer", "tables", "crayon")
   # Function to install and load packages
   install_and_load_packages <- function(packages) {
     for (package in packages) {
@@ -24,3 +24,4 @@
   install_and_load_packages(required_packages)
   packageStartupMessage("Required packages have been installed and loaded.")
 }
+
