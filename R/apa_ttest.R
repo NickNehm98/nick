@@ -26,7 +26,7 @@
 #' nick_ttest_apa(mtcars, group = "am", variables = c("mpg", "hp"), language = "ger", output_file = "APA_Output.docx", export = TRUE)
 #'
 #' @export
-nick_ttest_apa_try <- function(data, group, variables, language = "en", output_file = "APA_Table.docx", export = FALSE) {
+nick_ttest_apa <- function(data, group, variables, language = "en", output_file = "APA_Table.docx", export = FALSE) {
 
   # Eingabe validieren
   if (!(group %in% colnames(data))) {
